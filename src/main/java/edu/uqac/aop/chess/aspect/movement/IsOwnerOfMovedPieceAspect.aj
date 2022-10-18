@@ -25,7 +25,7 @@ public aspect IsOwnerOfMovedPieceAspect {
             // if the piece on the source spot is not the player's piece, return false and write a message
             // it's "==" because of the incorrect check in the original code
             if (startSpot.getPiece().getPlayer() == player.getColor()) {
-                System.out.println("IsOwnerOfMovedPieceAspect : You can't move a piece that is not yours!");
+                System.out.println("IsOwnerOfMovedPieceAspect - " + movement + " : You can't move a piece that is not yours!");
                 return false;
             }
 

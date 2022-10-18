@@ -20,13 +20,18 @@ public aspect IsMoveLegalAspect {
 
             Spot startSpot = board.getGrid()[movement.xI][movement.yI];
 
+            if (startSpot.getPiece() == null) {
+                System.out.println("IsMoveLegalAspect - " + movement + " : No piece at this spot");
+                return false;
+            }
+
             // check is the move is legal
             if (startSpot.getPiece().isMoveLegal(movement)) {
                 // if the move is legal, let the player make the move
                 return proceed(movement);
             } else {
                 // if the move is not legal, print a message and return false
-                System.out.println("IsMoveLegalAspect : Illegal move, try again");
+                System.out.println("IsMoveLegalAspect - " + movement + " : Illegal move, try again");
                 return false;
             }
         } catch (IllegalAccessException | NoSuchFieldException e) {
