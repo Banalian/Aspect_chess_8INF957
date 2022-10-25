@@ -4,11 +4,15 @@ import edu.uqac.aop.chess.Board;
 import edu.uqac.aop.chess.Spot;
 import edu.uqac.aop.chess.agent.Move;
 import edu.uqac.aop.chess.agent.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This aspect checks that the current moved piece is owned by the current player.
  */
 public aspect IsOwnerOfMovedPieceAspect {
+
+    private final Logger logger = LoggerFactory.getLogger("consoleLogger");
 
     //pointcut right after a move is made by a player
     pointcut moveMade(Move movement) : call(boolean edu.uqac.aop.chess.agent.Player.makeMove(Move)) && args(movement);
@@ -25,7 +29,7 @@ public aspect IsOwnerOfMovedPieceAspect {
             // if the piece on the source spot is not the player's piece, return false and write a message
             // it's "==" because of the incorrect check in the original code
             if (startSpot.getPiece().getPlayer() == player.getColor()) {
-                System.out.println("IsOwnerOfMovedPieceAspect - " + movement + " : You can't move a piece that is not yours!");
+                logger.warn("IsOwnerOfMovedPieceAspect - " + movement + " : You can't move a piece that is not yours!");
                 return false;
             }
 

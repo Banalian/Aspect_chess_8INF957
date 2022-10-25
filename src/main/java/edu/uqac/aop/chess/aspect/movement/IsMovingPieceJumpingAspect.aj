@@ -5,11 +5,15 @@ import edu.uqac.aop.chess.Spot;
 import edu.uqac.aop.chess.agent.Move;
 import edu.uqac.aop.chess.piece.Knight;
 import edu.uqac.aop.chess.piece.Piece;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Aspect to check if a piece is moving over other pieces (except for the knight)
  */
 public aspect IsMovingPieceJumpingAspect {
+
+    private final Logger logger = LoggerFactory.getLogger("consoleLogger");
 
     /**
      * Check if a piece is moving over other pieces (except for the knight)
@@ -20,7 +24,6 @@ public aspect IsMovingPieceJumpingAspect {
      */
     public boolean IsMovingPieceJumping(Piece piece, Board board, Move move) {
 
-        // TODO : not a correct implementation, to be completed/modified
         int x = move.xI;
         int y = move.yI;
         int x2 = move.xF;
@@ -68,7 +71,7 @@ public aspect IsMovingPieceJumpingAspect {
 
             // if the piece is not a knight, we check if it is jumping
             if (IsMovingPieceJumping(piece, board, movement)) {
-                System.out.println("IsMovingPieceJumpingAspect - " + movement + " : The piece is jumping over other pieces");
+                logger.warn("IsMovingPieceJumpingAspect - " + movement + " : The piece is jumping over other pieces");
                 return false;
             }
 

@@ -3,11 +3,15 @@ package edu.uqac.aop.chess.aspect.movement;
 import edu.uqac.aop.chess.Board;
 import edu.uqac.aop.chess.Spot;
 import edu.uqac.aop.chess.agent.Move;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Aspect that checks if a move is legal
  */
 public aspect IsMoveLegalAspect {
+
+    private final Logger logger = LoggerFactory.getLogger("consoleLogger");
 
     //pointcut right after a move is made by a player
     pointcut moveMade(Move movement) : call(boolean edu.uqac.aop.chess.agent.Player.makeMove(Move)) && args(movement);
@@ -21,7 +25,7 @@ public aspect IsMoveLegalAspect {
             Spot startSpot = board.getGrid()[movement.xI][movement.yI];
 
             if (startSpot.getPiece() == null) {
-                System.out.println("IsMoveLegalAspect - " + movement + " : No piece at this spot");
+                logger.warn("IsMoveLegalAspect - " + movement + " : No piece at this spot");
                 return false;
             }
 
@@ -31,7 +35,7 @@ public aspect IsMoveLegalAspect {
                 return proceed(movement);
             } else {
                 // if the move is not legal, print a message and return false
-                System.out.println("IsMoveLegalAspect - " + movement + " : Illegal move, try again");
+                logger.warn("IsMoveLegalAspect - " + movement + " : Illegal move, try again");
                 return false;
             }
         } catch (IllegalAccessException | NoSuchFieldException e) {
