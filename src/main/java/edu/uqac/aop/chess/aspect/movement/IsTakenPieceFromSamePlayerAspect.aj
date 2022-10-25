@@ -4,11 +4,15 @@ import edu.uqac.aop.chess.Board;
 import edu.uqac.aop.chess.Spot;
 import edu.uqac.aop.chess.agent.Move;
 import edu.uqac.aop.chess.piece.Piece;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Aspect that checks if a taken piece is from the same color as the initial piece
  */
 public aspect IsTakenPieceFromSamePlayerAspect {
+
+    private final Logger logger = LoggerFactory.getLogger("consoleLogger");
 
     /**
      * Checks if the taken piece is from the same color as the initial piece
@@ -36,7 +40,7 @@ public aspect IsTakenPieceFromSamePlayerAspect {
             if (startSpot.getPiece() != null && endSpot.getPiece() != null) {
                 // Check if the taken piece is from the same color as the initial piece
                 if (IsTakenPieceFromSamePlayer(startSpot.getPiece(), endSpot.getPiece())) {
-                    System.out.println("IsTakenPieceFromSamePlayerAspect - " + movement + " : The taken piece is from the same color as the initial piece");
+                    logger.warn("IsTakenPieceFromSamePlayerAspect - " + movement + " : The taken piece is from the same color as the initial piece");
                     return false;
                 }
             }
